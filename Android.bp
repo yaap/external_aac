@@ -92,6 +92,10 @@ cc_library_static {
         },
     },
 
+    lto: {
+       never: true,
+    },
+
     apex_available: [
         "//apex_available:platform",
         "com.android.btservices",
