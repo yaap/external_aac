@@ -139,8 +139,9 @@ SBR_ERROR ResetPsDec(HANDLE_PS_DEC h_ps_d);
 int CreatePsDec(HANDLE_PS_DEC *h_PS_DEC, /*!< pointer to the module state */
                 int aacSamplesPerFrame) {
   SBR_ERROR errorInfo = SBRDEC_OK;
-  HANDLE_PS_DEC h_ps_d;
+  HANDLE_PS_DEC h_ps_d = NULL;
   int i;
+  int h_ps_d_allocated = 0;
 
   if (*h_PS_DEC == NULL) {
     /* Get ps dec ram */
@@ -148,6 +149,7 @@ int CreatePsDec(HANDLE_PS_DEC *h_PS_DEC, /*!< pointer to the module state */
     if (h_ps_d == NULL) {
       goto bail;
     }
+    h_ps_d_allocated = 1;
   } else {
     /* Reset an open instance */
     h_ps_d = *h_PS_DEC;
@@ -205,7 +207,8 @@ int CreatePsDec(HANDLE_PS_DEC *h_PS_DEC, /*!< pointer to the module state */
   return 0;
 
 bail:
-  if (h_ps_d != NULL) {
+  /* Only delete locally-allocated h_ps_d. */
+  if (h_ps_d_allocated && h_ps_d != NULL) {
     DeletePsDec(&h_ps_d);
   }
 

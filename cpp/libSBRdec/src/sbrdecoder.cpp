@@ -401,6 +401,7 @@ static SBR_ERROR sbrDecoder_ResetElement(HANDLE_SBRDECODER self,
       case AOT_DRM_AAC:
       case AOT_DRM_SURROUND:
         if (CreatePsDec(&self->hParametricStereoDec, samplesPerFrame)) {
+          DeletePsDec(&self->hParametricStereoDec);
           sbrError = SBRDEC_CREATE_ERROR;
           goto bail;
         }

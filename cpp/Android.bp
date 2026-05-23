@@ -66,3 +66,29 @@ cc_library {
     ],
     min_sdk_version: "29",
 }
+
+cc_test {
+    name: "libSBRdec_test",
+    team: "trendy_team_android_media_audio_framework",
+    host_supported: true,
+    srcs: [
+        "libSBRdec/tests/libSBRdec_test.cpp",
+    ],
+    static_libs: [
+        "libFraunhoferAAC",
+    ],
+    shared_libs: [
+        "liblog",
+    ],
+    local_include_dirs: [
+        "libSBRdec/src",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+    sanitize: {
+        cfi: true,
+    },
+    test_suites: ["device-tests"],
+}
